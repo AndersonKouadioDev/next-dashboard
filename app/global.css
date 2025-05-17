@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@theme {
+  --grid-template-columns-13: repeat(13, minmax(0, 1fr));
+
+  --color-blue-50: #E3E3FB;
+  --color-blue-100: #C7C6F7;
+  --color-blue-200: #ACAAF3;
+  --color-blue-300: #5855E8;
+  --color-blue-400: #3D39E4;
+  --color-blue-500: #0500dc;
+  --color-blue-600: #0400c4;
+  --color-blue-700: #0400ab;
+  --color-blue-800: #030093;
+  --color-blue-900: #03007a;
+  --color-blue-950: #020062;
+
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
