@@ -2,7 +2,37 @@ import AcmeLogo from "@/app/ui/acme-logo";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import Image from "next/image";
-export default function Page() {
+import { getInvoices } from "./query/getInvoice.action";
+import prisma from "./lib/db";
+export default async function Page() {
+  
+  // Server Action
+  const invoices = await getInvoices();
+  console.log(invoices);
+
+  // API Route
+  const otherInvoices = await fetch("http://localhost:3000/query", {
+    method: "POST",
+  }).then((res) => res.json());
+  console.log(otherInvoices);
+
+  // Récupéfration directe des données dans la base de données (SQl ou Prisma)
+  const invoicesDb = await prisma.invoices.findMany({
+    where: {
+      amount: 500,
+    },
+    select: {
+      customer: {
+        select: {
+          name: true,
+        },
+      },
+      amount: true,
+    },
+  });
+
+  console.log(invoicesDb);
+
   return (
     <main className={`flex min-h-screen flex-col p-6 bg-primary-50`}>
       <div className="flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-52">
@@ -17,7 +47,7 @@ export default function Page() {
             </a>
             , brought to you by Vercel.
           </p>
-       
+
           <Link
             href="/login"
             className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
